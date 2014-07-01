@@ -1,24 +1,21 @@
 package harriscornerdetection;
 
-import java.awt.*;
-import java.awt.image.*;
-
 public class GaussianFilter {
 
-    int[] input;
-    int[] output;
-    float[] template;
-    int progress;
-    double sigma;
-    int templateSize;
-    int width;
-    int height;
+    private double[] input;
+    private double[] output;
+    private float[] template;
+    private int progress;
+    private double sigma;
+    private int templateSize;
+    private int width;
+    private int height;
 
     public void gaussianFilter() {
         progress = 0;
     }
 
-    public void init(int[] original, int sigmaIn, int tempSize, int widthIn, int heightIn) {
+    public void init(double[] original, int sigmaIn, int tempSize, int widthIn, int heightIn) {
         if ((tempSize % 2) == 0) {
             templateSize = tempSize - 1;
         }
@@ -26,13 +23,13 @@ public class GaussianFilter {
         templateSize = tempSize;
         width = widthIn;
         height = heightIn;
-        input = new int[width * height];
-        output = new int[width * height];
+        input = new double[width * height];
+        output = new double[width * height];
         template = new float[templateSize * templateSize];
         input = original;
     }
 
-    public void init(int[] original, double sigmaIn, int tempSize, int widthIn, int heightIn) {
+    public void init(double[] original, double sigmaIn, int tempSize, int widthIn, int heightIn) {
         if ((tempSize % 2) == 0) {
             templateSize = tempSize - 1;
         }
@@ -40,8 +37,8 @@ public class GaussianFilter {
         templateSize = tempSize;
         width = widthIn;
         height = heightIn;
-        input = new int[width * height];
-        output = new int[width * height];
+        input = new double[width * height];
+        output = new double[width * height];
         template = new float[templateSize * templateSize];
         input = original;
     }
@@ -64,10 +61,9 @@ public class GaussianFilter {
         }
     }
 
-    public int[] process() {
-        float sum;
+    public double[] process() {
+        double sum;
         progress = 0;
-        int outputsmaller[] = new int[(width - (templateSize - 1)) * (height - (templateSize - 1))];
 
         for (int x = (templateSize - 1) / 2; x < width - (templateSize + 1) / 2; x++) {
             progress++;
@@ -77,23 +73,13 @@ public class GaussianFilter {
                     for (int y1 = 0; y1 < templateSize; y1++) {
                         int x2 = (x - (templateSize - 1) / 2 + x1);
                         int y2 = (y - (templateSize - 1) / 2 + y1);
-                        float value = (input[y2 * width + x2] & 0xff) * (template[y1 * templateSize + x1]);
+                        double value = (input[y2 * width + x2]) * (template[y1 * templateSize + x1]);
                         sum += value;
                     }
                 }
-                outputsmaller[(y - (templateSize - 1) / 2) * (width - (templateSize - 1)) + (x - (templateSize - 1) / 2)] = 0xff000000 | ((int) sum << 16 | (int) sum << 8 | (int) sum);
+                //System.out.println("setting val " + sum);
+                output[(y - (templateSize - 1) / 2) * (width) + (x - (templateSize - 1) / 2)] = sum;
             }
-        }
-        progress = width;
-
-        Toolkit tk = Toolkit.getDefaultToolkit();
-
-        Image tempImage = tk.createImage(new MemoryImageSource((width - (templateSize - 1)), (height - (templateSize - 1)), outputsmaller, 0, (width - (templateSize - 1)))).getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        PixelGrabber grabber = new PixelGrabber(tempImage, 0, 0, width, height, output, 0, width);
-        try {
-            grabber.grabPixels();
-        } catch (InterruptedException e2) {
-            System.out.println("error: " + e2);
         }
         progress = width;
 

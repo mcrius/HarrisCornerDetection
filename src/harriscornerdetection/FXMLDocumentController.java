@@ -76,8 +76,8 @@ public class FXMLDocumentController implements Initializable {
             int size = image.widthProperty().intValue() * image.heightProperty().intValue();
 //            int size = i.getWidth(null) * i.getHeight(null);
             orig = new int[size];
-//            int width = i.getWidth(null);
-//            int height = i.getHeight(null);
+//            int width = 256;
+//            int height = 256;
             int width = imageView.getImage().widthProperty().intValue();
             int height = imageView.getImage().heightProperty().intValue();
 //            java.awt.Image i = new ToolkitImage(new FileImageSource(file.getAbsolutePath()));
@@ -113,7 +113,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
         // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
         // Draw the image on to the buffered image
         Graphics2D bGr = bimage.createGraphics();
