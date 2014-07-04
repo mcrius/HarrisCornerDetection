@@ -18,13 +18,13 @@ public class harris {
         progress = 0;
     }
 
-    public void init(int[] inputIn, int widthIn, int heightIn, double k) {
+    public void init(int[] inputIn, int widthIn, int heightIn, double k, double threshold) {
         width = widthIn;
         height = heightIn;
         input = inputIn;
         output = new int[width * height];
         this.k = k;
-
+        this.threshold = threshold;
     }
 
     public int[] process() {

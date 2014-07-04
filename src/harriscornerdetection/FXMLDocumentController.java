@@ -42,6 +42,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label label;
     @FXML
+    private Label threshLabel;
+    @FXML
     private ImageView imageView;
     @FXML
     private ImageView outView;
@@ -52,6 +54,8 @@ public class FXMLDocumentController implements Initializable {
     private VBox vBox;
     @FXML
     private Slider slider;
+    @FXML
+    private Slider threshSlider;
     @FXML
     private TextField textField;
     @FXML
@@ -86,6 +90,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void process(ActionEvent e) {
         double k = slider.getValue() / 1000;
+        double thresh = threshSlider.getValue();
         try {
             Toolkit tk = Toolkit.getDefaultToolkit();
             java.awt.Image i = tk.createImage(file.getAbsolutePath());
@@ -104,7 +109,7 @@ public class FXMLDocumentController implements Initializable {
             PixelGrabber grabber = new PixelGrabber(i, 0, 0, width, height, orig, 0, width);
             grabber.grabPixels();
             Thread t = new Thread(() -> {
-                h.init(orig, width, height, k);
+                h.init(orig, width, height, k, thresh);
                 orig = h.process();
 //                Component c = new JFXPanel();
                 final java.awt.Image output = tk.createImage(new MemoryImageSource(width, height, orig, 0, width));
@@ -124,6 +129,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         label.textProperty().bind(slider.valueProperty().divide(1000.0d).asString("%1.3f"));
+        threshLabel.textProperty().bind(threshSlider.valueProperty().asString("%1.0f"));
     }
 
     public static BufferedImage toBufferedImage(java.awt.Image img) {
