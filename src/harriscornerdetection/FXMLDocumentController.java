@@ -23,7 +23,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,6 +43,8 @@ public class FXMLDocumentController implements Initializable {
     private Label label;
     @FXML
     private ImageView imageView;
+    @FXML
+    private ImageView outView;
     private File file;
     private static int[] orig;
     private Image image;
@@ -50,17 +54,32 @@ public class FXMLDocumentController implements Initializable {
     private Slider slider;
     @FXML
     private TextField textField;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private TabPane tabPane;
+//    final DoubleProperty zoomProperty = new SimpleDoubleProperty(100);
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        try {
-            FileChooser fc = new FileChooser();
-            file = fc.showOpenDialog(null);
-            image = new Image(new FileInputStream(file));
-            imageView.setImage(image);
-            textField.setText(file.getAbsolutePath());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        FileChooser fc = new FileChooser();
+        file = fc.showOpenDialog(null);
+        if (file != null) {
+            Platform.runLater(() -> {
+                try {
+                    image = new Image(new FileInputStream(file));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                imageView.setImage(image);
+                textField.setText(file.getAbsolutePath());
+                imageView.setFitHeight(image.getHeight());
+                imageView.setFitWidth(image.getWidth());
+                imageView.preserveRatioProperty().set(true);
+                outView.setFitHeight(image.getHeight());
+                outView.setFitWidth(image.getWidth());
+                outView.preserveRatioProperty().set(true);
+            });
         }
     }
 
@@ -92,7 +111,8 @@ public class FXMLDocumentController implements Initializable {
                 WritableImage wi = new WritableImage(width, height);
                 WritableImage newwi = SwingFXUtils.toFXImage(toBufferedImage(output), wi);
                 Platform.runLater(() -> {
-                    imageView.setImage(newwi);
+                    outView.setImage(newwi);
+                    tabPane.getSelectionModel().selectLast();
                 });
             });
             t.start();
@@ -103,8 +123,7 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        imageView.fitWidthProperty().bind(vBox.widthProperty());
-        imageView.fitHeightProperty().bind(vBox.heightProperty());
+        label.textProperty().bind(slider.valueProperty().divide(1000.0d).asString("%1.3f"));
     }
 
     public static BufferedImage toBufferedImage(java.awt.Image img) {

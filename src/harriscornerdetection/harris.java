@@ -12,7 +12,7 @@ public class harris {
     int convolveY[] = {-1, -1, -1, 0, 0, 0, 1, 1, 1};
     int templateSize = 3;
     double k = 0.0004;
-    double threshold = 10000000;
+    double threshold = 1000000;
 
     public void harris() {
         progress = 0;

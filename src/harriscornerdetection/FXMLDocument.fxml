@@ -14,20 +14,22 @@
       <children>
         <GridPane gridLinesVisible="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="80.0" prefHeight="80.0" prefWidth="919.0" VBox.vgrow="NEVER">
           <children>
-            <Button mnemonicParsing="false" onAction="#handleButtonAction" text="Open" textAlignment="LEFT" wrapText="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+            <Button mnemonicParsing="false" onAction="#handleButtonAction" text="Open" textAlignment="LEFT" wrapText="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
               <GridPane.margin>
-                <Insets fx:id="x1" />
+                <Insets />
               </GridPane.margin>
             </Button>
             <TextField fx:id="textField" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="716.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
             <Label text="File:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#process" text="Process" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-            <Slider id="progressBar" fx:id="slider" majorTickUnit="50.0" max="200.0" minorTickCount="10" prefWidth="753.0" showTickLabels="false" showTickMarks="true" snapToTicks="true" value="25.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#process" text="Process" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+            <Slider id="progressBar" fx:id="slider" majorTickUnit="50.0" max="200.0" minorTickCount="10" prefWidth="753.0" showTickLabels="false" showTickMarks="true" snapToTicks="false" value="25.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="K:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label fx:id="label" contentDisplay="CENTER" text="0.025" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
           </children>
           <columnConstraints>
-            <ColumnConstraints fillWidth="true" halignment="CENTER" hgrow="NEVER" maxWidth="861.0" minWidth="10.0" percentWidth="5.0" prefWidth="92.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="861.0" minWidth="10.0" prefWidth="736.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="861.0" minWidth="10.0" percentWidth="5.0" prefWidth="200.95" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="861.0" minWidth="10.0" prefWidth="626.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="10.0" prefWidth="91.9" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="10.0" prefWidth="91.9" />
           </columnConstraints>
           <rowConstraints>
@@ -36,7 +38,39 @@
             <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="NEVER" />
           </rowConstraints>
         </GridPane>
-        <ImageView fx:id="imageView" fitHeight="498.25" fitWidth="919.0" pickOnBounds="true" preserveRatio="true" VBox.margin="$x1" VBox.vgrow="ALWAYS" />
+        <TabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="529.0" prefWidth="919.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+          <tabs>
+            <Tab text="Original">
+              <content>
+                <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="498.0000999999975" prefWidth="919.0">
+                  <children>
+                    <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="529.0" prefWidth="919.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-15.0">
+                      <content>
+                        <ImageView fx:id="imageView" fitHeight="498.25" fitWidth="919.0" pickOnBounds="true" preserveRatio="true" />
+                      </content>
+                    </ScrollPane>
+                  </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Output">
+              <content>
+                <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <ScrollPane id="scrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="529.0" prefWidth="919.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-15.0">
+                      <content>
+                        <ImageView id="imageView" fx:id="outView" fitHeight="498.25" fitWidth="919.0" pickOnBounds="true" preserveRatio="true" />
+                      </content>
+                    </ScrollPane>
+                  </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+          </tabs>
+          <VBox.margin>
+            <Insets />
+          </VBox.margin>
+        </TabPane>
       </children>
     </VBox>
   </children>
